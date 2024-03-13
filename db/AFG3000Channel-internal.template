@@ -1,0 +1,20 @@
+record(ao,"$(P)$(R)POWR") {
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto setSourcePower($(CHANNEL)) $(ASYN_PORT) $(ASYN_ADDR)")
+  field(FLNK, "$(P)$(R)rPOWR")
+  field(DRVH, 50)
+  field(DRVL, 0)
+  field(HOPR, 50)
+  field(LOPR, 0)
+  field(EGU,  "%")
+  field(PREC, 0)
+}
+
+record(ai,"$(P)$(R)rPOWR") {
+  field(DTYP, "stream")
+  field(INP,  "@afg3000.proto getSourcePower($(CHANNEL)) $(ASYN_PORT) $(ASYN_ADDR)")
+  field(PINI, "YES")
+  field(EGU,  "%")
+  field(PREC, 0)
+}
+

@@ -1,0 +1,43 @@
+# Use this template file with dual channel AFG.
+
+include "AFG3000Channel-single.template"
+
+# Source commands
+record(bo, "$(P)$(R)FCON") {
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto setSourceFrequencyConcurrent($(CHANNEL)) $(ASYN_PORT) $(ASYN_ADDR)")
+  field(FLNK, "$(P)$(R)rFCON")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+}
+
+record(bi, "$(P)$(R)rFCON") {
+  field(DTYP, "stream")
+  field(INP,  "@afg3000.proto getSourceFrequencyConcurrent($(CHANNEL)) $(ASYN_PORT) $(ASYN_ADDR)")
+  field(PINI, "YES")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+}
+
+record(bo, "$(P)$(R)PHIN") {
+  field(DTYP, "stream")
+  field(DESC, "Process this to phase align channels")
+  field(OUT,  "@afg3000.proto sourcePhaseInitiate($(CHANNEL)) $(ASYN_PORT) $(ASYN_ADDR)")
+}
+
+record(bo, "$(P)$(R)VCON") {
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto setSourceVoltageConcurrentState($(CHANNEL)) $(ASYN_PORT) $(ASYN_ADDR)")
+  field(FLNK, "$(P)$(R)rVCON")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+}
+
+record(bi, "$(P)$(R)rVCON") {
+  field(DTYP, "stream")
+  field(INP,  "@afg3000.proto getSourceVoltageConcurrentState($(CHANNEL)) $(ASYN_PORT) $(ASYN_ADDR)")
+  field(PINI, "YES")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+}
+

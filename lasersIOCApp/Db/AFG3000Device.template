@@ -1,0 +1,112 @@
+# System commands
+
+# record(stringin, "$(P)$(R=)IMN") {
+#   field(DESC, "Manufacturer")
+#   field(DTYP, "stream")
+#   field(INP,  "@afg3000.proto getIdentification($(PREFIX)) $(ASYN_PORT) $(ASYN_ADDR)")
+#   field(PINI, "YES")
+# }
+
+# record(stringin, "$(P)$(R=)IMDL") {
+# }
+# record(stringin, "$(P)$(R=)ISN") {
+# }
+# record(stringin, "$(P)$(R=)IFW") {
+# }
+
+record(ai, "$(P)$(R=)RST") {
+  field(DTYP, "stream")
+  field(INP,  "@afg3000.proto reset $(ASYN_PORT) $(ASYN_ADDR)")
+  field(STAT, NO_ALARM)
+  field(SEVR, NO_ALARM)
+}
+
+# Output commands
+record(bo, "$(P)$(R=)AO-TRGM") {
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto setOutputTriggerMode $(ASYN_PORT) $(ASYN_ADDR)")
+  field(FLNK, "$(P)$(R=)AOrTRGM")
+  field(ZNAM, "Trigger")
+  field(ONAM, "Sync")
+}
+
+record(bi, "$(P)$(R=)AOrTRGM") {
+  field(DTYP, "stream")
+  field(INP,  "@afg3000.proto getOutputTriggerMode $(ASYN_PORT) $(ASYN_ADDR)")
+  field(PINI, "YES")
+  field(ZNAM, "Trigger")
+  field(ONAM, "Sync")
+}
+
+# Source commands
+record(bo, "$(P)$(R=)AO-CLKS") {
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto setSourceROSource $(ASYN_PORT) $(ASYN_ADDR)")
+  field(FLNK, "$(P)$(R=)AOrCLKS")
+  field(ZNAM, "Internal")
+  field(ONAM, "External")
+}
+record(bi, "$(P)$(R=)AOrCLKS") {
+  field(DTYP, "stream")
+  field(INP,  "@afg3000.proto getSourceROSource $(ASYN_PORT) $(ASYN_ADDR)")
+  field(PINI, "YES")
+  field(ZNAM, "Internal")
+  field(ONAM, "External")
+}
+
+# Trigger commands
+record(bo, "$(P)$(R=)AO-TRGL") {
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto setTriggerSlope $(ASYN_PORT) $(ASYN_ADDR)")
+  field(FLNK, "$(P)$(R=)AOrTRGL")
+  field(ZNAM, "Positive")
+  field(ONAM, "Negative")
+}
+record(bi, "$(P)$(R=)AOrTRGL") {
+  field(DTYP, "stream")
+  field(INP,  "@afg3000.proto getTriggerSlope $(ASYN_PORT) $(ASYN_ADDR)")
+  field(PINI, "YES")
+  field(ZNAM, "Positive")
+  field(ONAM, "Negative")
+}
+
+record(bo, "$(P)$(R=)AO-TRGS") {
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto setTriggerSource $(ASYN_PORT) $(ASYN_ADDR)")
+  field(FLNK, "$(P)$(R=)AOrTRGS")
+  field(ZNAM, "Timer")
+  field(ONAM, "External")
+}
+record(bi, "$(P)$(R=)AOrTRGS") {
+  field(DTYP, "stream")
+  field(INP,  "@afg3000.proto getTriggerSource $(ASYN_PORT) $(ASYN_ADDR)")
+  field(PINI, "YES")
+  field(ZNAM, "Timer")
+  field(ONAM, "External")
+}
+
+record(ao,"$(P)$(R=)AO-TRGT") {
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto setTriggerTimer $(ASYN_PORT) $(ASYN_ADDR)")
+  field(FLNK, "$(P)$(R=)AOrTRGT")
+  field(DRVH, 1000)
+  field(DRVL, 0)
+  field(HOPR, 1000)
+  field(LOPR, 0)
+  field(EGU,  "s")
+  field(PREC, 9)
+}
+record(ai,"$(P)$(R=)AOrTRGT") {
+  field(DTYP, "stream")
+  field(INP,  "@afg3000.proto getTriggerTimer $(ASYN_PORT) $(ASYN_ADDR)")
+  field(PINI, "YES")
+  field(EGU,  "s")
+  field(PREC, 9)
+}
+
+record(bo, "$(P)$(R=)AO-TRIG") {
+  field(DESC, "Process to trigger")
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto trigger $(ASYN_PORT) $(ASYN_ADDR)")
+  field(ZNAM, "Trigger")
+}

@@ -1,0 +1,7 @@
+record (stringin, "$(PORT):getstring"){
+   field(DESC, "Get identity of Waveform gen")
+   field(DTYP, "asynFloat64")
+   field(INP, "@WFG.proto getId $(PORT)")
+   field(PINI, "YES")
+}
+					

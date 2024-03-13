@@ -1,0 +1,7 @@
+InTerminator = LF;
+OutTerminator = LF;
+
+getId{
+	out "*IDN?";
+	in "%70c";
+}

@@ -1,0 +1,16 @@
+Terminator = LF;
+fget = "(param-ref \'laser1:scan:offset)";
+fset = "(param-set! \'laser1:scan:offset %f)";
+
+getF{
+  out $fget;
+  in "%f";
+}
+
+setF{
+  ExtraInput = Ignore;
+  out $fset;
+  in "%*f";
+  @init{in "%*s"; getF; }
+}
+

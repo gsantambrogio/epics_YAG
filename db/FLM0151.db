@@ -1,0 +1,52 @@
+record (ao, $(R)setWL){
+   field(DESC, "Set wavelength")
+   field(DTYP, "stream")
+   field(OUT, "@FLM0151.proto setF(X) $(PORT) $(A)")
+   field(FLNK,"$(R)getWL.PROC")
+   field(PINI, "YES")
+ }
+record (ai, $(R)getWL){
+   field(DESC, "Query wavelenght")
+   field(DTYP, "stream")
+   field(INP, "@FLM0151.proto getF $(PORT) $(A)")
+   field(PINI, "YES") 
+#   field(FLNK, "$(R)wn")
+}
+
+#record (calc, $(R)wn){
+#   field (OOPT, "On Change")
+#   field (INPA, "$(R)getWL" NPP)
+#   field (CALC, "10E7/A")
+#}
+
+record (ao, $(R)setVolt){
+   field(DESC, "Set voltage")
+   field(DTYP, "stream")
+   field(OUT, "@FLM0151.proto setV $(PORT) $(A)")
+   field(FLNK, "$(R)getVolt.PROC")
+   field(PINI, "YES")
+}
+
+record (ai, $(R)getVolt){
+   field(DESC, "Query voltage")
+   field(DTYP, "stream")
+   field(INP, "@FLM0151.proto getV $(PORT) $(A)")
+   field(PINI, "YES")
+}
+
+record (ao, $(R)setTemp){
+   field(DESC, "Set temperature")
+   field(DTYP, "stream")
+   field(OUT, "@FLM0151.proto setT $(PORT) $(A)")
+   field(FLNK, "$(R)getTemp.PROC")
+   field(PINI, "YES")
+}
+
+record (ai, $(R)getTemp){
+   field(DESC, "Query temperature")
+   field(DTYP, "stream")
+   field(INP, "@FLM0151.proto getT $(PORT) $(A)")
+   field(PINI, "YES")
+}
+
+
