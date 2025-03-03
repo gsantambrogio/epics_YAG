@@ -66,6 +66,15 @@ getSourceAMState {
 	        @init{getSourceAMState;};
 		}
 
+getSourceFrequency {
+    out "SOUR\$1:FREQ:FIX?";
+        in  "%f";
+	}
+	setSourceFrequency {
+	    out "SOUR\$1:FREQ:FIX %f";
+	        @init{getSourceFrequency;};
+		}
+
 getSourceAMInternalFrequency {
     out "SOUR\$1:AM:INT:FREQ?";
         in  "%f";
@@ -692,7 +701,7 @@ getDataData {
         in  "%s";
 	}
 	setDataData {
-	    out "DATA:DATA EMEM,#%(\$1)%(NORD)%s";
+	    out "TRACE:DATA EMEM, #42000\$1";
 	    }
 
 setDataDelete{}

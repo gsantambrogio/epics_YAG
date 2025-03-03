@@ -110,3 +110,16 @@ record(bo, "$(P)$(R=)AO-TRIG") {
   field(OUT,  "@afg3000.proto trigger $(ASYN_PORT) $(ASYN_ADDR)")
   field(ZNAM, "Trigger")
 }
+
+record(aao, "$(P)$(R=)DATA") {
+  field(DESC, "Upload waveform")
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto setDataData(X) $(ASYN_PORT) $(ASYN_ADDR)")
+}
+
+record(ao, "$(P)$(R=)COPY") {
+  field(DESC, "Copy waveform")
+  field(DTYP, "stream")
+  field(OUT,  "@afg3000.proto setDataCopy(X,Y) $(ASYN_PORT) $(ASYN_ADDR)")
+}
+

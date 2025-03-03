@@ -8,9 +8,9 @@ getF{
 }
 
 setF{
-  ExtraInput = Ignore;
-  out $fset;
-  in "%*f";
-  @init{in "%*s"; getF; }
+#  @init {in "%f";}
+  out $fset; 
+#  in "%*10c";
+
 }
 

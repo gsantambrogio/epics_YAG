@@ -50,6 +50,7 @@ record(bi, "$(P)$(R)rSTAT") {
 }
 
 # Source commands
+
 ## AM
 record(bo, "$(P)$(R)AMST") {
   field(DTYP, "stream")
@@ -480,7 +481,11 @@ record(ai,"$(P)$(R)rFFIX") {
   field(PINI, "YES")
   field(EGU,  "Hz")
   field(PREC, 12)
+#  fiels(SCAN, "1 second")
+#  field(FLNK, "$(P)$(R)FFIX NPP")
 }
+
+###########################
 
 # FSK Modulation
 
