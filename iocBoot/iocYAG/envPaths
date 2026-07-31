@@ -1,0 +1,6 @@
+epicsEnvSet("IOC","iocYAG")
+epicsEnvSet("TOP","/home/pi/Apps/epics/IOCs/YAG")
+epicsEnvSet("SUPPORT","/home/pi/Apps/epics/modules")
+epicsEnvSet("ASYN","/home/pi/Apps/epics/modules/asyn")
+epicsEnvSet("STREAM","/home/pi/Apps/epics/modules/stream")
+epicsEnvSet("EPICS_BASE","/usr/local/epics/base")

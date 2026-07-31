@@ -1,7 +1,0 @@
-record (stringin, "$(PORT):getstring"){
-   field(DESC, "Get identity of Waveform gen")
-#   field(DTYP, "asynOctetRead")
-   field (DTYP, "stream")
-   field(INP, "@WFG.proto getId($(PORT)) $(PORT)")
-   field(PINI, "YES")
-}

@@ -1,6 +1,0 @@
-epicsEnvSet("IOC","ioclasersIOC")
-epicsEnvSet("TOP","/home/pi/Apps/epics/IOCs/lasers")
-epicsEnvSet("SUPPORT","/home/pi/Apps/epics/modules")
-epicsEnvSet("ASYN","/home/pi/Apps/epics/modules/asyn")
-epicsEnvSet("STREAM","/home/pi/Apps/epics/modules/stream")
-epicsEnvSet("EPICS_BASE","/usr/local/epics/base")
