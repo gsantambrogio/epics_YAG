@@ -6,6 +6,8 @@ include $(TOP)/configure/CONFIG
 # Install databases, templates & substitutions like this
 DB += FLM0151.db
 DB += FLM0151.proto
+DB += Qsmart.db
+DB += Qsmart.proto
 
 
 # If <anyname>.db template is not named <anyname>*.template add

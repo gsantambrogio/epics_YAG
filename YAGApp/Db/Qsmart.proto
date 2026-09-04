@@ -1,0 +1,98 @@
+# StreamDevice protocol for the Quantel Q-smart pulsed laser (ICE controller),
+# controlled remotely over its Ethernet port.
+#
+# Reference: Q-smart User Manual, "Software" chapter (Ethernet Interface /
+# Command Reference, pp. 51-55) -- HOWEVER the actual unit on site runs
+# firmware well beyond what that manual documents (laser brain 7.01, power
+# supply 7.05) and its real reply format differs from the manual in two
+# ways, confirmed by live testing against the hardware on 2026-09-04:
+#
+#  1. The read command for the power supply firmware version is PSVERS,
+#     not PSVER as printed in the manual (the manual's "Command" column
+#     dropped the trailing S that the response label itself uses).
+#
+#  2. Every successful reply is followed by an extra, undocumented status
+#     line of the form "OK : <status word>" (e.g. "OK : 6020 00 000000 25
+#     00 0000"). For a query this comes *after* the "LABEL = value" line;
+#     for a write command it is the *entire* reply (there is no bare "OK"
+#     or value echo as the manual states). A failed command still replies
+#     with a single "ERROR : ..." line and no trailing status line.
+#
+# - Commands are ASCII, upper case, terminated by CR LF.
+# - Replies are terminated by LF.
+# - The device accepts one command at a time (10 Hz max), so every command
+#   below reads back the full reply (including the trailing status line)
+#   before completing, keeping the connection in sync.
+# - The device also appears to accept only one TCP client at a time.
+
+OutTerminator = CR LF;
+InTerminator  = LF;
+ReplyTimeout  = 3000;
+LockTimeout   = 5000;
+
+# Consumes the extra undocumented "OK : <status word>" line that follows
+# every successful reply (query or write) on this unit's firmware.
+statusLine { in "OK : %*[^\n]"; }
+
+#-----------------------------------------------------------------------
+# System
+#-----------------------------------------------------------------------
+
+getPSVer  { out "PSVERS"; in "PSVERS = %f"; statusLine; }
+getLVer   { out "LVERS";  in "LVERS = %f";  statusLine; }
+getCGTemp { out "CGTEMP"; in "CGTEMP = %f"; statusLine; }
+
+getChkSerial { out "CHKSERIAL"; in "CHKSERIAL = %d"; statusLine; }
+setChkSerial { out "CHKSERIAL %d"; statusLine; }
+
+setEcho { out "ECHO %d"; statusLine; }
+
+#-----------------------------------------------------------------------
+# State
+#-----------------------------------------------------------------------
+
+getState { out "STATE"; in "STATE = %d"; statusLine; }
+
+#-----------------------------------------------------------------------
+# Flashlamp
+#-----------------------------------------------------------------------
+
+getCapVset { out "CAPVSET";    in "CAPVSET = %d"; statusLine; }
+setCapVset { out "CAPVSET %d"; statusLine; }
+
+getLPW { out "LPW";    in "LPW = %d"; statusLine; }
+setLPW { out "LPW %d"; statusLine; }
+
+getSShot { out "SSHOT"; in "SSHOT = %d"; statusLine; }
+getUShot { out "USHOT"; in "USHOT = %d"; statusLine; }
+rstUShot { out "USHOT 0"; statusLine; }
+
+# x = I: internal flashlamp trigger, E: external
+# y = I: internal Q-Switch trigger, E: external
+getTrig { out "TRIG"; in "TRIG = %s "; statusLine; }
+setTrig { out "TRIG %{II|IE|EI|EE}"; statusLine; }
+
+# Starts/stops the flashlamp at the internal repetition rate
+flRun { out "%{STOP|RUN}"; statusLine; }
+
+#-----------------------------------------------------------------------
+# Q-Switch
+#-----------------------------------------------------------------------
+
+getQSPAR1 { out "QSPAR1";    in "QSPAR1 = %d"; statusLine; }
+setQSPAR1 { out "QSPAR1 %d"; statusLine; }
+
+getQSPAR2 { out "QSPAR2";    in "QSPAR2 = %d"; statusLine; }
+setQSPAR2 { out "QSPAR2 %d"; statusLine; }
+
+getQSPAR3 { out "QSPAR3";    in "QSPAR3 = %d"; statusLine; }
+setQSPAR3 { out "QSPAR3 %d"; statusLine; }
+
+getQDLY { out "QDLY";    in "QDLY = %d"; statusLine; }
+setQDLY { out "QDLY %d"; statusLine; }
+
+getQDLYO { out "QDLYO";    in "QDLYO = %d"; statusLine; }
+setQDLYO { out "QDLYO %d"; statusLine; }
+
+# Starts/stops Q-Switch (laser) emission
+setQSW { out "QSW %d"; statusLine; }

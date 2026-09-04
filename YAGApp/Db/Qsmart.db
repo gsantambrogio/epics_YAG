@@ -1,0 +1,245 @@
+record (ai, $(R)Sys:PSVersion){
+   field(DESC, "Power supply firmware version")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getPSVer $(PORT) $(A)")
+   field(PREC, "2")
+   field(PINI, "YES")
+}
+record (ai, $(R)Sys:LaserBrainVersion){
+   field(DESC, "Laser brain firmware version")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getLVer $(PORT) $(A)")
+   field(PREC, "2")
+   field(PINI, "YES")
+}
+record (ai, $(R)Sys:CoolingTemp){
+   field(DESC, "Cooling group temperature")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getCGTemp $(PORT) $(A)")
+   field(EGU,  "degC")
+   field(PREC, "1")
+   field(SCAN, "1 second")
+   field(PINI, "YES")
+}
+
+record (bo, $(R)Sys:ChkSerialSet){
+   field(DESC, "Enable/disable control flux check")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setChkSerial $(PORT) $(A)")
+   field(ZNAM, "Disabled")
+   field(ONAM, "Enabled")
+   field(FLNK, "$(R)Sys:ChkSerial.PROC")
+}
+record (bi, $(R)Sys:ChkSerial){
+   field(DESC, "Control flux check state")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getChkSerial $(PORT) $(A)")
+   field(ZNAM, "Disabled")
+   field(ONAM, "Enabled")
+   field(PINI, "YES")
+}
+
+record (bo, $(R)Sys:Echo){
+   field(DESC, "Enable/disable command echo")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setEcho $(PORT) $(A)")
+   field(ZNAM, "Off")
+   field(ONAM, "On")
+}
+
+record (mbbi, $(R)State){
+   field(DESC, "Laser state")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getState $(PORT) $(A)")
+   field(ZRST, "Boot fault")
+   field(ZRVL, "0")
+   field(ONST, "Warm up")
+   field(ONVL, "1")
+   field(TWST, "Ready for RUN")
+   field(TWVL, "2")
+   field(THST, "Flashing - lamp disabled")
+   field(THVL, "3")
+   field(FRST, "Flashing - open shutter")
+   field(FRVL, "4")
+   field(FVST, "Flashing - pulse enabled")
+   field(FVVL, "5")
+   field(SXST, "Laser ON / NLO warm up")
+   field(SXVL, "6")
+   field(SVST, "HG thermally stabilized")
+   field(SVVL, "7")
+   field(EIST, "NLO optimization")
+   field(EIVL, "8")
+   field(NIST, "APM ok - NLO ready")
+   field(NIVL, "9")
+   field(SCAN, "1 second")
+   field(PINI, "YES")
+}
+
+record (longout, $(R)FL:Voltage){
+   field(DESC, "Flashlamp voltage setpoint")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setCapVset $(PORT) $(A)")
+   field(EGU,  "V")
+   field(FLNK, "$(R)FL:Voltage_RBV.PROC")
+}
+record (longin, $(R)FL:Voltage_RBV){
+   field(DESC, "Flashlamp voltage readback")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getCapVset $(PORT) $(A)")
+   field(EGU,  "V")
+   field(PINI, "YES")
+}
+
+record (longout, $(R)FL:PulseWidth){
+   field(DESC, "Flashlamp pulse width setpoint")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setLPW $(PORT) $(A)")
+   field(EGU,  "us")
+   field(FLNK, "$(R)FL:PulseWidth_RBV.PROC")
+}
+record (longin, $(R)FL:PulseWidth_RBV){
+   field(DESC, "Flashlamp pulse width readback")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getLPW $(PORT) $(A)")
+   field(EGU,  "us")
+   field(PINI, "YES")
+}
+
+record (longin, $(R)FL:ShotCounter){
+   field(DESC, "Flashlamp system shot counter")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getSShot $(PORT) $(A)")
+   field(SCAN, "5 second")
+   field(PINI, "YES")
+}
+record (longin, $(R)FL:UserShotCounter){
+   field(DESC, "Flashlamp user shot counter")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getUShot $(PORT) $(A)")
+   field(SCAN, "5 second")
+   field(PINI, "YES")
+}
+record (bo, $(R)FL:UserShotCounterRst){
+   field(DESC, "Reset flashlamp user shot counter")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto rstUShot $(PORT) $(A)")
+   field(ZNAM, "Reset")
+   field(ONAM, "Reset")
+   field(FLNK, "$(R)FL:UserShotCounter.PROC")
+}
+
+record (mbbo, $(R)FL:TriggerMode){
+   field(DESC, "Flashlamp/Q-Switch trigger mode")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setTrig $(PORT) $(A)")
+   field(ZRST, "Int FL / Int QS")
+   field(ZRVL, "0")
+   field(ONST, "Int FL / Ext QS")
+   field(ONVL, "1")
+   field(TWST, "Ext FL / Int QS")
+   field(TWVL, "2")
+   field(THST, "Ext FL / Ext QS")
+   field(THVL, "3")
+   field(FLNK, "$(R)FL:TriggerMode_RBV.PROC")
+}
+record (stringin, $(R)FL:TriggerMode_RBV){
+   field(DESC, "Flashlamp/Q-Switch trigger mode readback")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getTrig $(PORT) $(A)")
+   field(PINI, "YES")
+}
+
+record (bo, $(R)FL:Run){
+   field(DESC, "Start/stop flashlamp")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto flRun $(PORT) $(A)")
+   field(ZNAM, "Stop")
+   field(ONAM, "Run")
+}
+
+record (longout, $(R)QS:BurstCycles){
+   field(DESC, "QS burst/scan cycle count (QSPAR1)")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setQSPAR1 $(PORT) $(A)")
+   field(DRVL, "0")
+   field(DRVH, "65535")
+   field(FLNK, "$(R)QS:BurstCycles_RBV.PROC")
+}
+record (longin, $(R)QS:BurstCycles_RBV){
+   field(DESC, "QS burst/scan cycle count readback")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getQSPAR1 $(PORT) $(A)")
+   field(PINI, "YES")
+}
+
+record (longout, $(R)QS:PassivePulses){
+   field(DESC, "Passive pulses per cycle (QSPAR2)")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setQSPAR2 $(PORT) $(A)")
+   field(DRVL, "0")
+   field(DRVH, "65535")
+   field(FLNK, "$(R)QS:PassivePulses_RBV.PROC")
+}
+record (longin, $(R)QS:PassivePulses_RBV){
+   field(DESC, "Passive pulses per cycle readback")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getQSPAR2 $(PORT) $(A)")
+   field(PINI, "YES")
+}
+
+record (longout, $(R)QS:ActivePulses){
+   field(DESC, "Active QS pulses per cycle (QSPAR3)")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setQSPAR3 $(PORT) $(A)")
+   field(DRVL, "0")
+   field(DRVH, "65535")
+   field(FLNK, "$(R)QS:ActivePulses_RBV.PROC")
+}
+record (longin, $(R)QS:ActivePulses_RBV){
+   field(DESC, "Active QS pulses per cycle readback")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getQSPAR3 $(PORT) $(A)")
+   field(PINI, "YES")
+}
+
+record (longout, $(R)QS:Delay){
+   field(DESC, "Flashlamp to Q-Switch delay")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setQDLY $(PORT) $(A)")
+   field(EGU,  "ns")
+   field(DRVL, "0")
+   field(DRVH, "255")
+   field(FLNK, "$(R)QS:Delay_RBV.PROC")
+}
+record (longin, $(R)QS:Delay_RBV){
+   field(DESC, "Flashlamp to Q-Switch delay readback")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getQDLY $(PORT) $(A)")
+   field(EGU,  "ns")
+   field(PINI, "YES")
+}
+
+record (longout, $(R)QS:SyncOutDelay){
+   field(DESC, "Q-Switch sync-out delay")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setQDLYO $(PORT) $(A)")
+   field(EGU,  "ns")
+   field(DRVL, "-500")
+   field(DRVH, "500")
+   field(FLNK, "$(R)QS:SyncOutDelay_RBV.PROC")
+}
+record (longin, $(R)QS:SyncOutDelay_RBV){
+   field(DESC, "Q-Switch sync-out delay readback")
+   field(DTYP, "stream")
+   field(INP,  "@Qsmart.proto getQDLYO $(PORT) $(A)")
+   field(EGU,  "ns")
+   field(PINI, "YES")
+}
+
+record (bo, $(R)QS:Enable){
+   field(DESC, "Start/stop Q-Switch (laser) emission")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setQSW $(PORT) $(A)")
+   field(ZNAM, "Off")
+   field(ONAM, "On")
+}
