@@ -18,6 +18,7 @@ record (ai, $(R)Sys:CoolingTemp){
    field(INP,  "@Qsmart.proto getCGTemp $(PORT) $(A)")
    field(EGU,  "degC")
    field(PREC, "1")
+   field(ADEL, "0.4")
    field(SCAN, "1 second")
    field(PINI, "YES")
 }
@@ -29,7 +30,17 @@ record (bo, $(R)Sys:ChkSerialSet){
    field(ZNAM, "Disabled")
    field(ONAM, "Enabled")
    field(FLNK, "$(R)Sys:ChkSerial.PROC")
+   field(PINI, "YES")
 }
+
+record (bo, $(R)Sys:RemoteControl){
+   field(DESC, "Claim remote/computer control (SSWITCH)")
+   field(DTYP, "stream")
+   field(OUT,  "@Qsmart.proto setSSwitch $(PORT) $(A)")
+   field(ZNAM, "Local")
+   field(ONAM, "Computer")
+}
+
 record (bi, $(R)Sys:ChkSerial){
    field(DESC, "Control flux check state")
    field(DTYP, "stream")
@@ -39,20 +50,13 @@ record (bi, $(R)Sys:ChkSerial){
    field(PINI, "YES")
 }
 
-record (bo, $(R)Sys:Echo){
-   field(DESC, "Enable/disable command echo")
-   field(DTYP, "stream")
-   field(OUT,  "@Qsmart.proto setEcho $(PORT) $(A)")
-   field(ZNAM, "Off")
-   field(ONAM, "On")
-}
-
 record (mbbi, $(R)State){
    field(DESC, "Laser state")
    field(DTYP, "stream")
    field(INP,  "@Qsmart.proto getState $(PORT) $(A)")
    field(ZRST, "Boot fault")
    field(ZRVL, "0")
+   field(ZRSV, "MAJOR")
    field(ONST, "Warm up")
    field(ONVL, "1")
    field(TWST, "Ready for RUN")
@@ -81,6 +85,7 @@ record (longout, $(R)FL:Voltage){
    field(OUT,  "@Qsmart.proto setCapVset $(PORT) $(A)")
    field(EGU,  "V")
    field(FLNK, "$(R)FL:Voltage_RBV.PROC")
+   field(PINI, "YES")
 }
 record (longin, $(R)FL:Voltage_RBV){
    field(DESC, "Flashlamp voltage readback")
@@ -96,6 +101,7 @@ record (longout, $(R)FL:PulseWidth){
    field(OUT,  "@Qsmart.proto setLPW $(PORT) $(A)")
    field(EGU,  "us")
    field(FLNK, "$(R)FL:PulseWidth_RBV.PROC")
+   field(PINI, "YES")
 }
 record (longin, $(R)FL:PulseWidth_RBV){
    field(DESC, "Flashlamp pulse width readback")
@@ -141,6 +147,7 @@ record (mbbo, $(R)FL:TriggerMode){
    field(THST, "Ext FL / Ext QS")
    field(THVL, "3")
    field(FLNK, "$(R)FL:TriggerMode_RBV.PROC")
+   field(PINI, "YES")
 }
 record (stringin, $(R)FL:TriggerMode_RBV){
    field(DESC, "Flashlamp/Q-Switch trigger mode readback")
@@ -164,6 +171,7 @@ record (longout, $(R)QS:BurstCycles){
    field(DRVL, "0")
    field(DRVH, "65535")
    field(FLNK, "$(R)QS:BurstCycles_RBV.PROC")
+   field(PINI, "YES")
 }
 record (longin, $(R)QS:BurstCycles_RBV){
    field(DESC, "QS burst/scan cycle count readback")
@@ -179,6 +187,7 @@ record (longout, $(R)QS:PassivePulses){
    field(DRVL, "0")
    field(DRVH, "65535")
    field(FLNK, "$(R)QS:PassivePulses_RBV.PROC")
+   field(PINI, "YES")
 }
 record (longin, $(R)QS:PassivePulses_RBV){
    field(DESC, "Passive pulses per cycle readback")
@@ -194,6 +203,7 @@ record (longout, $(R)QS:ActivePulses){
    field(DRVL, "0")
    field(DRVH, "65535")
    field(FLNK, "$(R)QS:ActivePulses_RBV.PROC")
+   field(PINI, "YES")
 }
 record (longin, $(R)QS:ActivePulses_RBV){
    field(DESC, "Active QS pulses per cycle readback")
@@ -210,6 +220,7 @@ record (longout, $(R)QS:Delay){
    field(DRVL, "0")
    field(DRVH, "255")
    field(FLNK, "$(R)QS:Delay_RBV.PROC")
+   field(PINI, "YES")
 }
 record (longin, $(R)QS:Delay_RBV){
    field(DESC, "Flashlamp to Q-Switch delay readback")
@@ -227,6 +238,7 @@ record (longout, $(R)QS:SyncOutDelay){
    field(DRVL, "-500")
    field(DRVH, "500")
    field(FLNK, "$(R)QS:SyncOutDelay_RBV.PROC")
+   field(PINI, "YES")
 }
 record (longin, $(R)QS:SyncOutDelay_RBV){
    field(DESC, "Q-Switch sync-out delay readback")

@@ -43,9 +43,15 @@ getLVer   { out "LVERS";  in "LVERS = %f";  statusLine; }
 getCGTemp { out "CGTEMP"; in "CGTEMP = %f"; statusLine; }
 
 getChkSerial { out "CHKSERIAL"; in "CHKSERIAL = %d"; statusLine; }
-setChkSerial { out "CHKSERIAL %d"; statusLine; }
+setChkSerial { out "CHKSERIAL %d"; statusLine; @init { getChkSerial; } }
 
-setEcho { out "ECHO %d"; statusLine; }
+# Undocumented command (not in the printed manual). Confirmed by live testing
+# on 2026-09-10: SSWITCH 1 claims remote/computer control of the laser (the
+# Q-touch panel's CONTROL field switches to "Computer"). SSWITCH 0's exact
+# effect was not tested; assumed by symmetry to release control back to the
+# Q-touch, but treat that as unverified. No query command is known for this,
+# so no @init/readback is possible.
+setSSwitch { out "SSWITCH %d"; statusLine; }
 
 #-----------------------------------------------------------------------
 # State
@@ -58,10 +64,10 @@ getState { out "STATE"; in "STATE = %d"; statusLine; }
 #-----------------------------------------------------------------------
 
 getCapVset { out "CAPVSET";    in "CAPVSET = %d"; statusLine; }
-setCapVset { out "CAPVSET %d"; statusLine; }
+setCapVset { out "CAPVSET %d"; statusLine; @init { getCapVset; } }
 
 getLPW { out "LPW";    in "LPW = %d"; statusLine; }
-setLPW { out "LPW %d"; statusLine; }
+setLPW { out "LPW %d"; statusLine; @init { getLPW; } }
 
 getSShot { out "SSHOT"; in "SSHOT = %d"; statusLine; }
 getUShot { out "USHOT"; in "USHOT = %d"; statusLine; }
@@ -70,7 +76,9 @@ rstUShot { out "USHOT 0"; statusLine; }
 # x = I: internal flashlamp trigger, E: external
 # y = I: internal Q-Switch trigger, E: external
 getTrig { out "TRIG"; in "TRIG = %s "; statusLine; }
-setTrig { out "TRIG %{II|IE|EI|EE}"; statusLine; }
+# Same query, but parsed into the raw enum index so it can seed the mbbo control at boot.
+getTrigEnum { out "TRIG"; in "TRIG = %{II|IE|EI|EE} "; statusLine; }
+setTrig { out "TRIG %{II|IE|EI|EE}"; statusLine; @init { getTrigEnum; } }
 
 # Starts/stops the flashlamp at the internal repetition rate
 flRun { out "%{STOP|RUN}"; statusLine; }
@@ -80,19 +88,19 @@ flRun { out "%{STOP|RUN}"; statusLine; }
 #-----------------------------------------------------------------------
 
 getQSPAR1 { out "QSPAR1";    in "QSPAR1 = %d"; statusLine; }
-setQSPAR1 { out "QSPAR1 %d"; statusLine; }
+setQSPAR1 { out "QSPAR1 %d"; statusLine; @init { getQSPAR1; } }
 
 getQSPAR2 { out "QSPAR2";    in "QSPAR2 = %d"; statusLine; }
-setQSPAR2 { out "QSPAR2 %d"; statusLine; }
+setQSPAR2 { out "QSPAR2 %d"; statusLine; @init { getQSPAR2; } }
 
 getQSPAR3 { out "QSPAR3";    in "QSPAR3 = %d"; statusLine; }
-setQSPAR3 { out "QSPAR3 %d"; statusLine; }
+setQSPAR3 { out "QSPAR3 %d"; statusLine; @init { getQSPAR3; } }
 
 getQDLY { out "QDLY";    in "QDLY = %d"; statusLine; }
-setQDLY { out "QDLY %d"; statusLine; }
+setQDLY { out "QDLY %d"; statusLine; @init { getQDLY; } }
 
 getQDLYO { out "QDLYO";    in "QDLYO = %d"; statusLine; }
-setQDLYO { out "QDLYO %d"; statusLine; }
+setQDLYO { out "QDLYO %d"; statusLine; @init { getQDLYO; } }
 
 # Starts/stops Q-Switch (laser) emission
 setQSW { out "QSW %d"; statusLine; }
